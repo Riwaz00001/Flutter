@@ -1,71 +1,81 @@
+import 'package:demo/pages/detailpage.dart';
 import 'package:flutter/material.dart';
 
 class dashboard extends StatefulWidget {
   const dashboard({super.key});
 
   @override
-  State<dashboard> createState() => _dashboardState();
+  State<dashboard> createState() => dashboardState();
 }
 
-class _dashboardState extends State<dashboard> {
+class dashboardState extends State<dashboard> {
   horizontalitem(size,String title,url,date){
-    return Stack(
-      children: [
-        Container(
-          margin: EdgeInsets.only(left: 20,right: 10),
-          height: size.height/5,
-          decoration:
-          BoxDecoration(
-              color:Colors.grey,
-              borderRadius: BorderRadius.circular(20)
+    return GestureDetector(
+      onTap:(){
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => detailpage(),
           ),
-          width:size.width/1.1,
-          child:
-          ClipRRect(
-            borderRadius:BorderRadius.circular(20),
+        );
+      } ,
+      child: Stack(
+        children: [
+          Container(
+            margin: EdgeInsets.only(left: 20,right: 10),
+            height: size.height/5,
+            decoration:
+            BoxDecoration(
+                color:Colors.grey,
+                borderRadius: BorderRadius.circular(20)
+            ),
+            width:size.width/1.1,
             child:
-            Image.network(url,
-              fit: BoxFit.cover,
+            ClipRRect(
+              borderRadius:BorderRadius.circular(20),
+              child:
+              Image.network(url,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
-
-        Positioned(
-          left: 20,
-          right: 10,
-          top: 0,
-          child: Container(
-            margin: EdgeInsets.only(left: 20,right: 10,top:8),
-            height: size.height/5,
-            width: size.width/1.1,
-            color: Colors.black12,
+          Positioned(
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.black12,
+                  borderRadius: BorderRadius.circular(20)
+              ),
+              margin: EdgeInsets.only(left: 20,right: 10),
+              height: size.height/5,
+              width: size.width/1.1,
+            ),
           ),
-        ),
-        Positioned(bottom:50,left:30,child:
-        Container(
-            width: size.width/2,
-            child: Text(title,
-                overflow: TextOverflow.ellipsis,maxLines:2,
-                style:TextStyle(color: Colors.white))
-        ),
-        ),
-        Positioned(bottom:20,left:30,child:
-        Container(
-            width: size.width/2,
-            child: Text(date,
-                overflow: TextOverflow.ellipsis,maxLines:2,
-                style:TextStyle(color: Colors.white))
-        ),
-        ),
-        Positioned(bottom:20,right :30,
-            child:
-            Container(
-                child: Icon(Icons.play_circle,color: Colors.white,size:30,))
-        ),
-      ],
+          Positioned(bottom:50,left:30,child:
+          Container(
+              width: size.width/2,
+              child: Text(title,
+                  overflow: TextOverflow.ellipsis,maxLines:2,
+                  style:TextStyle(color: Colors.white))
+          ),
+          ),
+          Positioned(bottom:20,left:30,child:
+          Container(
+              width: size.width/2,
+              child: Text(date,
+                  overflow: TextOverflow.ellipsis,maxLines:2,
+                  style:TextStyle(color: Colors.white))
+          ),
+          ),
+          Positioned(bottom:20,right :30,
+              child:
+              Container(
+                  child: Icon(Icons.play_circle,color: Colors.white,size:30,))
+          ),
+        ],
+      ),
     );
   }
-  verticalitem(size,url,String title,String by,date){
+  static verticalitem(size,url,String title,String by,date){
     return Container(
       margin: EdgeInsets.all(10),
       child: Row(
