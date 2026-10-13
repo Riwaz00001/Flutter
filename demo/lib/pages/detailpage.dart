@@ -33,9 +33,14 @@ class _detailpageState extends State<detailpage> {
                   width: size.width,
                   color: Colors.black45,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Icon(Icons.arrow_back,color: Colors.white,size: 40,),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.of(context).pop();
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Icon(Icons.arrow_back,color: Colors.white,size: 40,),
+                  ),
                 ),
                 Positioned(right:5,
                     child:Padding(
