@@ -1,9 +1,9 @@
 import 'package:demo/pages/detailpage.dart';
 import 'package:flutter/material.dart';
 
+import '../controller/apicall.dart';
 class dashboard extends StatefulWidget {
   const dashboard({super.key});
-
   @override
   State<dashboard> createState() => dashboardState();
 }
@@ -134,6 +134,11 @@ class dashboardState extends State<dashboard> {
           ]
       ),
     );
+  }
+  @override
+  void initState(){
+    super.initState();
+    Apicall().getnewsapidata();
   }
   @override
   Widget build(BuildContext context) {
