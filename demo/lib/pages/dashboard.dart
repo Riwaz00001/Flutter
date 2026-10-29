@@ -2,6 +2,7 @@ import 'package:demo/pages/detailpage.dart';
 import 'package:flutter/material.dart';
 
 import '../controller/apicall.dart';
+import '../model/news.dart';
 class dashboard extends StatefulWidget {
   const dashboard({super.key});
   @override
@@ -135,6 +136,7 @@ class dashboardState extends State<dashboard> {
       ),
     );
   }
+  Future<news?>? futurenewsdata;
   @override
   void initState(){
     super.initState();
@@ -152,30 +154,48 @@ class dashboardState extends State<dashboard> {
         child:Column(
           children: [
             //horizontal list
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-        child: Row(
-        children: [
-          horizontalitem(size,"Helloo Brooo!!!!!!!","https://images.pexels.com/photos/19943722/pexels-photo-19943722.jpeg","2026-10-08"),
-          horizontalitem(size,"This is the second call","https://images.pexels.com/photos/19943722/pexels-photo-19943722.jpeg","2026-10-08"),
-    ],
-    )
-        ),
+            FutureBuilder(future: futurenewsdata, builder:(context,AsyncSnapshot<news?> snapshot){
+              switch(snapshot.connectionState){
+                case ConnectionState.none:
+                case ConnectionState.waiting:
+                  return Center(child:CircularProgressIndicator());
+                case ConnectionState.active:
+                case ConnectionState.done:
+                  if(snapshot.hasData){
+                    var data=snapshot.data;
+                    return Column(
+                      children: [
+                        Container(
+                          height: size.height/4,
+                          child:
+                          ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: data!.articles!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return horizontalitem(size,data.articles![index].title!,data.articles![index].urlToImage,data.articles![index].publishedAt);
+                              }
+                          ),
+                        ),
+                        Container(
+                          height: size.height/4,
+                          child:
+                          ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: data!.articles!.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return verticalitem(size,data.articles![index].urlToImage,data.articles![index].title!,data.articles![index].author!,data.articles![index].publishedAt!);
+                              }
+                          ),
+                        )
+                      ],
+                    );
+                  }
+                  else{
+                    return Center(child: Text("No Data Found"),);
+                  }
+              }
+            }),
             //vertical list
-            Container(
-              height: size.height/1.65,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    verticalitem(size, "https://images.pexels.com/photos/17599665/pexels-photo-17599665.jpeg","Gatasthapana","PCPS","2026-10-08"),
-                    verticalitem(size, "https://images.pexels.com/photos/17599665/pexels-photo-17599665.jpeg","Happy Dashain","PCPS","2026-10-08"),
-                    verticalitem(size, "https://images.pexels.com/photos/17599665/pexels-photo-17599665.jpeg","Happy Tihar","PCPS","2026-11-03"),
-                    verticalitem(size, "https://images.pexels.com/photos/17599665/pexels-photo-17599665.jpeg","Bhai Tika","PCPS","2026-10-05"),
-                  ],
-                ),
-              ),
-            )
           ],
         ),
       ),
